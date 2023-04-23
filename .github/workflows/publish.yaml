@@ -1,0 +1,15 @@
+name: Publish
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  build:
+    concurrency:
+      group: ${{ github.repository }}-${{ github.head_ref }}
+      cancel-in-progress: false
+    uses: bobrossthepainter/github-workflows/.github/workflows/ghcr-publish.yaml@main
+    with:
+      multi-arch: linux/amd64,linux/arm64
